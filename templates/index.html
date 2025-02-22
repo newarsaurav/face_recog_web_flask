@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Face Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h2>Login with Face</h2>
-    <a href="{{ url_for('register') }}">go to Register</a><br>
-    <video id="video" width="320" height="240" autoplay></video>
-    <button id="capture">Login</button>
-    <canvas id="canvas" style="display: none;"></canvas>
-    <p id="message"></p>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-96 text-center">
+        <h2 class="text-xl font-bold text-gray-700 mb-4">Login with Face</h2>
+        <a href="{{ url_for('register') }}" class="text-blue-500 hover:underline">Go to Register</a>
+        <div class="mt-4">
+            <video id="video" class="rounded-lg border border-gray-300" width="320" height="240" autoplay></video>
+        </div>
+        <button id="capture" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">Login</button>
+        <canvas id="canvas" class="hidden"></canvas>
+        <p id="message" class="mt-2 text-red-500 font-medium"></p>
+    </div>
 
     <script>
         let video = document.getElementById('video');
