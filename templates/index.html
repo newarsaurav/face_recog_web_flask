@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Login</title>
+</head>
+<body>
+    <h2>Login with Face</h2>
+    <a href="{{ url_for('register') }}">Register</a><br>
+    <video id="video" width="320" height="240" autoplay></video>
+    <button id="capture">Login</button>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <p id="message"></p>
+
+    <script>
+        let video = document.getElementById('video');
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+        let captureBtn = document.getElementById('capture');
+        let message = document.getElementById('message');
+
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            video.srcObject = stream;
+        });
+
+        captureBtn.addEventListener('click', () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob(blob => {
+                let formData = new FormData();
+                formData.append('image', blob, 'face.jpg');
+
+                fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    message.innerText = data.message;
+                })
+                .catch(error => console.error('Error:', error));
+            }, 'image/jpeg');
+        });
+    </script>
+</body>
+</html>
