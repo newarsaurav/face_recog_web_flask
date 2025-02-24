@@ -54,9 +54,10 @@ def register():
         else:
             return jsonify({"status": "error", "message": "No face detected!"}), 400
 
-
     else:
         return render_template('register.html')
+    
+    
 @app.route('/login', methods=['POST'])
 def login():
     if 'image' not in request.files:
